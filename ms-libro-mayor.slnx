@@ -1,0 +1,6 @@
+<Solution>
+  <Project Path="src/NeoCore.Application/NeoCore.Application.csproj" />
+  <Project Path="src/NeoCore.Domain/NeoCore.Domain.csproj" />
+  <Project Path="src/NeoCore.Infrastructure.OutputPoint/NeoCore.Infrastructure.OutputPoint.csproj" />
+  <Project Path="src/NeoCore.Runner/NeoCore.Runner.csproj" />
+</Solution>
