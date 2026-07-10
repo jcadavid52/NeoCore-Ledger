@@ -4,6 +4,7 @@ using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
+using NeoCore.Infrastructure.EntryPoint.Rest.Excepciones;
 
 namespace NeoCore.Infrastructure.EntryPoint.Inyecciones
 {
@@ -17,6 +18,10 @@ namespace NeoCore.Infrastructure.EntryPoint.Inyecciones
                 options.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
                 options.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
             });
+
+            servicios.AddExceptionHandler<ManejadorExcepciones>();
+            servicios.AddProblemDetails();
+
             return servicios;
         }
     }

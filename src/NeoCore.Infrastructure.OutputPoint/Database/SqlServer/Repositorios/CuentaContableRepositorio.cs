@@ -1,4 +1,5 @@
 ﻿using NeoCore.Domain.Agregados;
+using NeoCore.Domain.Excepciones;
 using NeoCore.Domain.Repositorios;
 
 namespace NeoCore.Infrastructure.OutputPoint.Database.SqlServer.Repositorios
@@ -18,7 +19,7 @@ namespace NeoCore.Infrastructure.OutputPoint.Database.SqlServer.Repositorios
 
             if (eventos == null || !eventos.Any())
             {
-                throw new Exception($"No se encontró historial para la cuenta {idCuenta}");
+                throw new ExcepcionNoEncontrado($"No se encontró historial para la cuenta {idCuenta}");
             }
 
             var cuenta = new CuentaContable(idCuenta);
