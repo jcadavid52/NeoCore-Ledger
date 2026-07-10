@@ -8,7 +8,14 @@
 
   <ItemGroup>
     <ProjectReference Include="..\NeoCore.Application\NeoCore.Application.csproj" />
+    <ProjectReference Include="..\NeoCore.Infrastructure.EntryPoint\NeoCore.Infrastructure.EntryPoint.csproj" />
     <ProjectReference Include="..\NeoCore.Infrastructure.OutputPoint\NeoCore.Infrastructure.OutputPoint.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="SeedData\seed-data.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
 </Project>
