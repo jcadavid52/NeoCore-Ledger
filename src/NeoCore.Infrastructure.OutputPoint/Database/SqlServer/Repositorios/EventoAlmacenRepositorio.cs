@@ -1,4 +1,5 @@
-﻿using NeoCore.Domain.Interfaces;
+﻿using NeoCore.Domain.Excepciones;
+using NeoCore.Domain.Interfaces;
 using NeoCore.Domain.Repositorios;
 using NeoCore.Infrastructure.OutputPoint.Database.SqlServer.Entidades;
 using System.Text.Json;
@@ -27,12 +28,7 @@ namespace NeoCore.Infrastructure.OutputPoint.Database.SqlServer.Repositorios
 
             if (ultimaVersion != versionEsperada)
             {
-                throw new Exception($"Conflicto de concurrencia: La versión esperada era {versionEsperada}, pero la última versión en base de datos es {ultimaVersion}.");
-            }
-
-            if (ultimaVersion != versionEsperada)
-            {
-                throw new Exception($"Conflicto de concurrencia: La versión esperada era {versionEsperada}, pero la última versión en base de datos es {ultimaVersion}.");
+                throw new ExcepcionConflicto($"Conflicto de concurrencia: La versión esperada era {versionEsperada}, pero la última versión en base de datos es {ultimaVersion}.");
             }
 
             var versionActual = versionEsperada;
@@ -93,7 +89,7 @@ namespace NeoCore.Infrastructure.OutputPoint.Database.SqlServer.Repositorios
                 }
                 else
                 {
-                    throw new Exception($"El tipo de evento {eventoGuardado.TipoMensaje} no se pudo resolver.");
+                    throw new ExcepcionInfraestructura($"El tipo de evento {eventoGuardado.TipoMensaje} no se pudo resolver.");
                 }
             }
 
