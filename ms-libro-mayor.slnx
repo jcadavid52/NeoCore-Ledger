@@ -1,6 +1,7 @@
 <Solution>
   <Project Path="src/NeoCore.Application/NeoCore.Application.csproj" />
   <Project Path="src/NeoCore.Domain/NeoCore.Domain.csproj" />
+  <Project Path="src/NeoCore.Infrastructure.EntryPoint/NeoCore.Infrastructure.EntryPoint.csproj" Id="83dba970-f272-421f-9f0c-9f86ae354171" />
   <Project Path="src/NeoCore.Infrastructure.OutputPoint/NeoCore.Infrastructure.OutputPoint.csproj" />
   <Project Path="src/NeoCore.Runner/NeoCore.Runner.csproj" />
 </Solution>

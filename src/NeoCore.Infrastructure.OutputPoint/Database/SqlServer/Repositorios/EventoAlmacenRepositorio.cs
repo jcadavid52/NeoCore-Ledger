@@ -8,15 +8,27 @@ namespace NeoCore.Infrastructure.OutputPoint.Database.SqlServer.Repositorios
 {
     public class EventoAlmacenRepositorio : IEventoAlmacenRepositorio
     {
+        private readonly SqlServerContexto _contexto;
+
+        public EventoAlmacenRepositorio(SqlServerContexto contexto)
+        {
+            _contexto = contexto;
+        }
+
         public async Task AgregarAsync(Guid idAgregado, IReadOnlyCollection<IEventoDominio> eventos, int versionEsperada, CancellationToken cancellationToken)
         {
             if (eventos == null || !eventos.Any()) return;
 
-            var ultimaVersion = SeedDatabase.ObtenerEventos()
-                .Where(x => x.IdAgregado == idAgregado)
-                .Select(x => x.Version)
-                .DefaultIfEmpty(0)
-                .Max();
+            var ultimaVersion = _contexto.EventoAlmacenEntidad
+               .Where(x => x.IdAgregado == idAgregado)
+               .Select(x => (int?)x.Version)
+               .DefaultIfEmpty()
+               .Max() ?? 0;
+
+            if (ultimaVersion != versionEsperada)
+            {
+                throw new Exception($"Conflicto de concurrencia: La versión esperada era {versionEsperada}, pero la última versión en base de datos es {ultimaVersion}.");
+            }
 
             if (ultimaVersion != versionEsperada)
             {
@@ -45,15 +57,15 @@ namespace NeoCore.Infrastructure.OutputPoint.Database.SqlServer.Repositorios
                     Dato = jsonNode.ToJsonString()
                 };
 
-                SeedDatabase.AgregarEvento(nuevoEventoGuardado);
+                _contexto.EventoAlmacenEntidad.Add(nuevoEventoGuardado);
             }
 
-            await Task.CompletedTask;
+            await _contexto.SaveChangesAsync(cancellationToken);
         }
 
         public async Task<IReadOnlyCollection<IEventoDominio>> CargarAsync(Guid IdAgregado, CancellationToken cancellationToken)
         {
-            var eventosGuardados = SeedDatabase.ObtenerEventos()
+            var eventosGuardados = _contexto.EventoAlmacenEntidad
                 .Where(x => x.IdAgregado == IdAgregado)
                 .OrderBy(x => x.Version);
 

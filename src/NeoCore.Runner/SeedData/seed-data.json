@@ -1,0 +1,10 @@
+{
+  "Eventos": [
+    {
+      "Tipo": "DepositarDinero",
+      "IdAgregado": "a873b08d-f25a-4910-9aeb-f30970c0ef2b",
+      "Monto": 1000000.00,
+      "IdCuentaOrigen": "00000000-0000-0000-0000-000000000000"
+    }
+  ]
+}

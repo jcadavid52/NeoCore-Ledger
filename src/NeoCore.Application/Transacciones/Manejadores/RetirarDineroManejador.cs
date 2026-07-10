@@ -1,9 +1,10 @@
-﻿using NeoCore.Application.CuentasContables.Comandos;
+﻿using MediatR;
+using NeoCore.Application.Transacciones.Comandos;
 using NeoCore.Domain.Repositorios;
 
-namespace NeoCore.Application.CuentasContables.Manejadores
+namespace NeoCore.Application.Transacciones.Manejadores
 {
-    public class RetirarDineroManejador
+    public class RetirarDineroManejador:IRequestHandler<RetirarDineroComando>
     {
         private readonly ICuentaContableRepositorio _repositorio;
 
@@ -12,13 +13,13 @@ namespace NeoCore.Application.CuentasContables.Manejadores
             _repositorio = repositorio;
         }
 
-        public async Task Ejecutar(RetirarDineroComando comando,CancellationToken cancellationToken)
+        public async Task Handle(RetirarDineroComando comando, CancellationToken cancellationToken)
         {
             var cuenta = await _repositorio.CargarAsync(comando.IdCuenta, cancellationToken);
 
             cuenta.Retirar(comando.Monto);
 
-            await _repositorio.GuardarAsync(cuenta,cancellationToken);
+            await _repositorio.GuardarAsync(cuenta, cancellationToken);
         }
     }
 }
