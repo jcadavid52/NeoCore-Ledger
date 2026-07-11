@@ -5,6 +5,7 @@ using NeoCore.Domain.Repositorios;
 using NeoCore.Infrastructure.OutputPoint.Database.SqlServer;
 using NeoCore.Infrastructure.OutputPoint.Database.SqlServer.Configuracion;
 using NeoCore.Infrastructure.OutputPoint.Database.SqlServer.Repositorios;
+using NeoCore.Infrastructure.OutputPoint.Database.SqlServer.Servicios;
 
 namespace NeoCore.Infrastructure.OutputPoint.Inyecciones
 {
@@ -14,6 +15,7 @@ namespace NeoCore.Infrastructure.OutputPoint.Inyecciones
         {
             servicios.AddScoped<ICuentaContableRepositorio, CuentaContableRepositorio>();
             servicios.AddScoped<IEventoAlmacenRepositorio, EventoAlmacenRepositorio>();
+            servicios.AddScoped<IIdempotenciaRepositorio, IdempotenciaRepositorio>();
 
             ConfiguracionSqlServer(servicios, configuracion);
 
