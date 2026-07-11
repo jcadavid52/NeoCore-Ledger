@@ -8,10 +8,12 @@ namespace NeoCore.Infrastructure.OutputPoint.Database.SqlServer
         private const string NombreEsquema = "ms-libro-mayor";
 
         public DbSet<EventoAlmacenEntidad> EventoAlmacenEntidad { get; set; }
+        public DbSet<IdempotenciaEntidad> IdempotenciaEntidad { get; set; }
 
         public SqlServerContexto(DbContextOptions<SqlServerContexto> opciones):base(opciones)
         {
             EventoAlmacenEntidad = Set<EventoAlmacenEntidad>();
+            IdempotenciaEntidad = Set<IdempotenciaEntidad>();
         }
 
         protected override void OnModelCreating(ModelBuilder modeloConstructor)
@@ -21,6 +23,7 @@ namespace NeoCore.Infrastructure.OutputPoint.Database.SqlServer
             modeloConstructor.HasDefaultSchema(NombreEsquema);
 
             modeloConstructor.ApplyConfiguration(new EventoAlmacenEntidadConfiguracion());
+            modeloConstructor.ApplyConfiguration(new IdempotenciaEntidadConfiguracion());
         }
     }
 }

@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
-namespace NeoCore.Infrastructure.OutputPoint.Database.SqlServer
+namespace NeoCore.Infrastructure.OutputPoint.Database.SqlServer.Servicios
 {
     public class BaseDatosMigracionServicio : IHostedService
     {

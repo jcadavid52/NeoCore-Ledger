@@ -8,7 +8,7 @@ using NeoCore.Domain.Repositorios;
 using NeoCore.Infrastructure.OutputPoint.Database.SqlServer.Configuracion;
 using System.Text.Json;
 
-namespace NeoCore.Infrastructure.OutputPoint.Database.SqlServer
+namespace NeoCore.Infrastructure.OutputPoint.Database.SqlServer.Servicios
 {
     public class BaseDatosSemillaServicio : IHostedService
     {
