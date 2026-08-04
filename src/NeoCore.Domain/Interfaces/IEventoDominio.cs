@@ -8,10 +8,6 @@
 
         int Version { get; }
 
-        //public string TipoMensaje { get; }
-
-        //public string Dato { get; }
-
         DateTime OcurrioEn { get; }
     }
 }

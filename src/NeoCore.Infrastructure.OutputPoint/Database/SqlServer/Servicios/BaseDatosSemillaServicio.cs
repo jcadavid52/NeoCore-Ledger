@@ -6,6 +6,7 @@ using NeoCore.Domain.Eventos;
 using NeoCore.Domain.Interfaces;
 using NeoCore.Domain.Repositorios;
 using NeoCore.Infrastructure.OutputPoint.Database.SqlServer.Configuracion;
+using NeoCore.SharedKernel.LibroContable;
 using System.Text.Json;
 
 namespace NeoCore.Infrastructure.OutputPoint.Database.SqlServer.Servicios
@@ -36,7 +37,6 @@ namespace NeoCore.Infrastructure.OutputPoint.Database.SqlServer.Servicios
 
             using var alcance = _serviceProvider.CreateScope();
             var repositorio = alcance.ServiceProvider.GetRequiredService<IEventoAlmacenRepositorio>();
-
             var ruta = seccion.Semilla.RutaArchivo
                 ?? "SeedData/seed-data.json";
 
@@ -86,7 +86,11 @@ namespace NeoCore.Infrastructure.OutputPoint.Database.SqlServer.Servicios
 
             return dto.Tipo switch
             {
-                "DepositarDinero" => new DepositarDinero(dto.Monto, idAgregado, Guid.Parse(dto.IdCuentaOrigen)),
+                "AcreditarDinero" => new AcreditarDinero(
+                    dto.Monto,
+                    Guid.Parse(dto.IdCuenta),
+                    Guid.NewGuid(),
+                    TipoCorrelacionEnum.Transferencia),
                 _ => throw new InvalidOperationException($"Tipo de evento desconocido: {dto.Tipo}")
             };
         }
@@ -102,6 +106,6 @@ namespace NeoCore.Infrastructure.OutputPoint.Database.SqlServer.Servicios
         public string Tipo { get; init; } = string.Empty;
         public string IdAgregado { get; init; } = string.Empty;
         public decimal Monto { get; init; }
-        public string IdCuentaOrigen { get; init; } = "00000000-0000-0000-0000-000000000000";
+        public string IdCuenta { get; init; } = string.Empty;
     }
 }

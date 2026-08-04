@@ -1,14 +1,14 @@
 ﻿using MediatR;
-using NeoCore.Application.Transacciones.Comandos;
+using NeoCore.Application.CasosDeUso.LibroContable.Comandos;
 using NeoCore.Domain.Repositorios;
 
-namespace NeoCore.Application.Transacciones.Manejadores
+namespace NeoCore.Application.CasosDeUso.LibroContable.Manejadores
 {
     public class RetirarDineroManejador:IRequestHandler<RetirarDineroComando>
     {
-        private readonly ICuentaContableRepositorio _repositorio;
+        private readonly ILibroContableRepositorio _repositorio;
 
-        public RetirarDineroManejador(ICuentaContableRepositorio repositorio)
+        public RetirarDineroManejador(ILibroContableRepositorio repositorio)
         {
             _repositorio = repositorio;
         }

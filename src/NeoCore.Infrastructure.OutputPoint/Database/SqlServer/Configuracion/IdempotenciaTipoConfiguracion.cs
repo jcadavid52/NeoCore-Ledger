@@ -1,9 +1,10 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using NeoCore.Infrastructure.OutputPoint.Database.SqlServer.Entidades;
 
-namespace NeoCore.Infrastructure.OutputPoint.Database.SqlServer.Entidades
+namespace NeoCore.Infrastructure.OutputPoint.Database.SqlServer.Configuracion
 {
-    public class IdempotenciaEntidadConfiguracion : IEntityTypeConfiguration<IdempotenciaEntidad>
+    public class IdempotenciaTipoConfiguracion : IEntityTypeConfiguration<IdempotenciaEntidad>
     {
         public void Configure(EntityTypeBuilder<IdempotenciaEntidad> entity)
         {

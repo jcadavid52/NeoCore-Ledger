@@ -4,7 +4,7 @@ using NeoCore.Domain.Repositorios;
 
 namespace NeoCore.Infrastructure.OutputPoint.Database.SqlServer.Repositorios
 {
-    public class CuentaContableRepositorio : ICuentaContableRepositorio
+    public class CuentaContableRepositorio : ILibroContableRepositorio
     {
         private readonly IEventoAlmacenRepositorio _eventoAlmacenRepositorio;
 
@@ -13,7 +13,7 @@ namespace NeoCore.Infrastructure.OutputPoint.Database.SqlServer.Repositorios
             _eventoAlmacenRepositorio = eventoAlmacenRepositorio;
         }
 
-        public async Task<CuentaContable> CargarAsync(Guid idCuenta, CancellationToken cancellationToken)
+        public async Task<LibroContableAgregado> CargarAsync(Guid idCuenta, CancellationToken cancellationToken)
         {
             var eventos = await _eventoAlmacenRepositorio.CargarAsync(idCuenta, cancellationToken);
 
@@ -22,14 +22,15 @@ namespace NeoCore.Infrastructure.OutputPoint.Database.SqlServer.Repositorios
                 throw new ExcepcionNoEncontrado($"No se encontró historial para la cuenta {idCuenta}");
             }
 
-            var cuenta = new CuentaContable(idCuenta);
+
+            var cuenta = new LibroContableAgregado(idCuenta);
 
             cuenta.CargarDesdeHistorial(eventos.OrderBy(e => e.Version));
 
             return cuenta;
         }
 
-        public async Task GuardarAsync(CuentaContable cuentaContable, CancellationToken cancellationToken)
+        public async Task GuardarAsync(LibroContableAgregado cuentaContable, CancellationToken cancellationToken)
         {
             var eventosNuevos = cuentaContable.ObtenerEventosNoConfirmados();
 
@@ -44,8 +45,6 @@ namespace NeoCore.Infrastructure.OutputPoint.Database.SqlServer.Repositorios
                 cancellationToken);
 
             cuentaContable.LimpiarEventosNoConfirmados();
-
-            // Despachamos los eventos hacia el bus para que los proyectores actualicen los Read Models (Saldos)
         }
     }
 }

@@ -13,7 +13,7 @@ namespace NeoCore.Infrastructure.OutputPoint.Inyecciones
     {
         public static IServiceCollection AgregarAdaptadorPuntoSalida(this IServiceCollection servicios, IConfiguration configuracion)
         {
-            servicios.AddScoped<ICuentaContableRepositorio, CuentaContableRepositorio>();
+            servicios.AddScoped<ILibroContableRepositorio, CuentaContableRepositorio>();
             servicios.AddScoped<IEventoAlmacenRepositorio, EventoAlmacenRepositorio>();
             servicios.AddScoped<IIdempotenciaRepositorio, IdempotenciaRepositorio>();
 

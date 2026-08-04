@@ -1,9 +1,10 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using NeoCore.Infrastructure.OutputPoint.Database.SqlServer.Entidades;
 
-namespace NeoCore.Infrastructure.OutputPoint.Database.SqlServer.Entidades
+namespace NeoCore.Infrastructure.OutputPoint.Database.SqlServer.Configuracion
 {
-    public class EventoAlmacenEntidadConfiguracion : IEntityTypeConfiguration<EventoAlmacenEntidad>
+    public class EventoAlmacenTipoConfiguracion : IEntityTypeConfiguration<EventoAlmacenEntidad>
     {
         public void Configure(EntityTypeBuilder<EventoAlmacenEntidad> entity)
         {
