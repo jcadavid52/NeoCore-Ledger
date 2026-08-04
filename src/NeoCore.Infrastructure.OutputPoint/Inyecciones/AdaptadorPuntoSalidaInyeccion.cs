@@ -1,11 +1,19 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using MassTransit;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using NeoCore.Application.Interfaces;
 using NeoCore.Domain.Repositorios;
 using NeoCore.Infrastructure.OutputPoint.Database.SqlServer;
 using NeoCore.Infrastructure.OutputPoint.Database.SqlServer.Configuracion;
 using NeoCore.Infrastructure.OutputPoint.Database.SqlServer.Repositorios;
 using NeoCore.Infrastructure.OutputPoint.Database.SqlServer.Servicios;
+using NeoCore.Infrastructure.OutputPoint.Rest.Clientes.CuentasServicio;
+using NeoCore.Infrastructure.OutputPoint.Sagas.Consumidores;
+using NeoCore.Infrastructure.OutputPoint.Sagas.Estado;
+using NeoCore.Infrastructure.OutputPoint.Sagas.MaquinasDeEstado;
+using Polly;
+using Polly.Extensions.Http;
 
 namespace NeoCore.Infrastructure.OutputPoint.Inyecciones
 {
@@ -16,8 +24,11 @@ namespace NeoCore.Infrastructure.OutputPoint.Inyecciones
             servicios.AddScoped<ILibroContableRepositorio, CuentaContableRepositorio>();
             servicios.AddScoped<IEventoAlmacenRepositorio, EventoAlmacenRepositorio>();
             servicios.AddScoped<IIdempotenciaRepositorio, IdempotenciaRepositorio>();
-
+            servicios.AddScoped<IUnidadDeTrabajo, UnidadDeTrabajoSqlServer>();
+            
             ConfiguracionSqlServer(servicios, configuracion);
+            ConfiguracionMassTransit(servicios, configuracion);
+            ConfiguracionClienteRest(servicios, configuracion);
 
             return servicios;
         }
@@ -47,5 +58,71 @@ namespace NeoCore.Infrastructure.OutputPoint.Inyecciones
                 servicios.AddHostedService<BaseDatosSemillaServicio>();
             }
         }
+
+        private static void ConfiguracionMassTransit(IServiceCollection servicios, IConfiguration configuracion)
+        {
+            var rabbitConfig = configuracion.GetSection("RabbitMQ").Get<RabbitMQConfig>()
+                ?? throw new ArgumentNullException("Error al obtener la configuración de RabbitMQ");
+
+            servicios.AddMassTransit(x =>
+            {
+                x.AddSagaStateMachine<TransferenciaEstadoMaquina, TransferenciaEstado>()
+                    .EntityFrameworkRepository(r =>
+                    {
+                        r.ExistingDbContext<SqlServerContexto>();
+                        r.UseSqlServer();
+                    });
+
+                x.AddConsumer<BloquearSaldoConsumer>();
+                x.AddConsumer<AcreditarSaldoConsumer>();
+                x.AddConsumer<LiquidarSaldoConsumer>();
+
+                x.AddEntityFrameworkOutbox<SqlServerContexto>(o =>
+                {
+                    o.QueryDelay = TimeSpan.FromSeconds(1);
+                    o.UseSqlServer();
+                    o.UseBusOutbox();
+                });
+
+                x.UsingRabbitMq((context, cfg) =>
+                {
+                    cfg.Host(rabbitConfig.Host, rabbitConfig.VirtualHost, h =>
+                    {
+                        h.Username(rabbitConfig.Username);
+                        h.Password(rabbitConfig.Password);
+                    });
+
+                    cfg.ConfigureEndpoints(context);
+                });
+            });
+        }
+
+        private static void ConfiguracionClienteRest(IServiceCollection servicios, IConfiguration configuracion)
+        {
+            var retryPolicy = HttpPolicyExtensions
+                .HandleTransientHttpError()
+                .WaitAndRetryAsync(3, retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt)));
+
+            var circuitBreakerPolicy = HttpPolicyExtensions
+                .HandleTransientHttpError()
+                .CircuitBreakerAsync(3, TimeSpan.FromSeconds(30));
+
+            servicios.AddHttpClient<ICuentaServicioCliente, ServicioCuentaCliente>(client =>
+            {
+                var baseUrl = configuracion["AccountService:BaseUrl"] ?? "http://localhost:5000";
+                client.BaseAddress = new Uri(baseUrl);
+                client.Timeout = TimeSpan.FromSeconds(30);
+            })
+            .AddPolicyHandler(circuitBreakerPolicy)
+            .AddPolicyHandler(retryPolicy);
+        }
+    }
+
+    public class RabbitMQConfig
+    {
+        public string Host { get; set; } = "localhost";
+        public string VirtualHost { get; set; } = "/";
+        public string Username { get; set; } = "guest";
+        public string Password { get; set; } = "guest";
     }
 }

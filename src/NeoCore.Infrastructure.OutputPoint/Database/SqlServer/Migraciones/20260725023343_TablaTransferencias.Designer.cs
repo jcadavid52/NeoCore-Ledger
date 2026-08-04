@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using NeoCore.Infrastructure.OutputPoint.Database.SqlServer;
 
@@ -11,9 +12,11 @@ using NeoCore.Infrastructure.OutputPoint.Database.SqlServer;
 namespace NeoCore.Infrastructure.OutputPoint.Database.SqlServer.Migraciones
 {
     [DbContext(typeof(SqlServerContexto))]
-    partial class SqlServerContextoModelSnapshot : ModelSnapshot
+    [Migration("20260725023343_TablaTransferencias")]
+    partial class TablaTransferencias
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -193,6 +196,38 @@ namespace NeoCore.Infrastructure.OutputPoint.Database.SqlServer.Migraciones
                     b.ToTable("OutboxState", "ms-libro-mayor");
                 });
 
+            modelBuilder.Entity("NeoCore.Domain.Agregados.TransferenciaAgregado", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("Estado")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("FechaCreacion")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("FechaResolucion")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid>("IdCuentaDestino")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("IdCuentaOrigen")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<decimal>("Monto")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("RazonRechazo")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("TransferenciaAgregado", "ms-libro-mayor");
+                });
+
             modelBuilder.Entity("NeoCore.Infrastructure.OutputPoint.Database.SqlServer.Entidades.EventoAlmacenEntidad", b =>
                 {
                     b.Property<Guid>("IdEvento")
@@ -249,54 +284,6 @@ namespace NeoCore.Infrastructure.OutputPoint.Database.SqlServer.Migraciones
                     b.HasKey("IdClave");
 
                     b.ToTable("Idempotencias", "ms-libro-mayor");
-                });
-
-            modelBuilder.Entity("NeoCore.Infrastructure.OutputPoint.Sagas.Estado.TransferenciaEstado", b =>
-                {
-                    b.Property<Guid>("CorrelationId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("CuentaDestinoId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("CuentaOrigenId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<bool>("DestinoAcreditado")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("EstadoActual")
-                        .IsRequired()
-                        .HasMaxLength(64)
-                        .HasColumnType("nvarchar(64)");
-
-                    b.Property<DateTime?>("FechaFin")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("FechaInicio")
-                        .HasColumnType("datetime2");
-
-                    b.Property<decimal>("Monto")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<string>("MotivoRechazo")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("OrigenLiquidado")
-                        .HasColumnType("bit");
-
-                    b.Property<byte[]>("RowVersion")
-                        .IsConcurrencyToken()
-                        .IsRequired()
-                        .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnType("rowversion");
-
-                    b.Property<bool>("SaldoBloqueado")
-                        .HasColumnType("bit");
-
-                    b.HasKey("CorrelationId");
-
-                    b.ToTable("TransferenciaEstado", "ms-libro-mayor");
                 });
 
             modelBuilder.Entity("MassTransit.EntityFrameworkCoreIntegration.OutboxMessage", b =>

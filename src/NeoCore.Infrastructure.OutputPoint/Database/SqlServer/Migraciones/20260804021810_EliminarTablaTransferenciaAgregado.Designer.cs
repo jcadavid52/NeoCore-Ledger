@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using NeoCore.Infrastructure.OutputPoint.Database.SqlServer;
 
@@ -11,9 +12,11 @@ using NeoCore.Infrastructure.OutputPoint.Database.SqlServer;
 namespace NeoCore.Infrastructure.OutputPoint.Database.SqlServer.Migraciones
 {
     [DbContext(typeof(SqlServerContexto))]
-    partial class SqlServerContextoModelSnapshot : ModelSnapshot
+    [Migration("20260804021810_EliminarTablaTransferenciaAgregado")]
+    partial class EliminarTablaTransferenciaAgregado
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

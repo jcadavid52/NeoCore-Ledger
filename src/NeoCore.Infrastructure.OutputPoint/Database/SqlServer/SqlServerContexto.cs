@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using MassTransit;
+using Microsoft.EntityFrameworkCore;
+using NeoCore.Domain.Agregados;
 using NeoCore.Infrastructure.OutputPoint.Database.SqlServer.Configuracion;
 using NeoCore.Infrastructure.OutputPoint.Database.SqlServer.Entidades;
 
@@ -25,6 +27,11 @@ namespace NeoCore.Infrastructure.OutputPoint.Database.SqlServer
 
             modeloConstructor.ApplyConfiguration(new EventoAlmacenTipoConfiguracion());
             modeloConstructor.ApplyConfiguration(new IdempotenciaTipoConfiguracion());
+            modeloConstructor.ApplyConfiguration(new TransferenciaEstadoConfiguracion());
+
+            modeloConstructor.AddInboxStateEntity();
+            modeloConstructor.AddOutboxMessageEntity();
+            modeloConstructor.AddOutboxStateEntity();
         }
     }
 }

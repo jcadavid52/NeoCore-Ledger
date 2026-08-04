@@ -56,7 +56,6 @@ namespace NeoCore.Infrastructure.OutputPoint.Database.SqlServer.Repositorios
                 _contexto.EventoAlmacenEntidad.Add(nuevoEventoGuardado);
             }
 
-            await _contexto.SaveChangesAsync(cancellationToken);
         }
 
         public async Task<IReadOnlyCollection<IEventoDominio>> CargarAsync(Guid IdAgregado, CancellationToken cancellationToken)

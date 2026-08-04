@@ -11,4 +11,7 @@
 	<ItemGroup>
 	  <ProjectReference Include="..\NeoCore.Application\NeoCore.Application.csproj" />
 	</ItemGroup>
+	<ItemGroup>
+	  <Folder Include="Mensajería\Consumidores\" />
+	</ItemGroup>
 </Project>

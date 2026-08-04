@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using NeoCore.Infrastructure.OutputPoint.Database.SqlServer;
 
@@ -11,9 +12,11 @@ using NeoCore.Infrastructure.OutputPoint.Database.SqlServer;
 namespace NeoCore.Infrastructure.OutputPoint.Database.SqlServer.Migraciones
 {
     [DbContext(typeof(SqlServerContexto))]
-    partial class SqlServerContextoModelSnapshot : ModelSnapshot
+    [Migration("20260731021934_AgregarTablaTransferenciaEstado")]
+    partial class AgregarTablaTransferenciaEstado
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -191,6 +194,38 @@ namespace NeoCore.Infrastructure.OutputPoint.Database.SqlServer.Migraciones
                     b.HasIndex("Created");
 
                     b.ToTable("OutboxState", "ms-libro-mayor");
+                });
+
+            modelBuilder.Entity("NeoCore.Domain.Agregados.TransferenciaAgregado", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("Estado")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("FechaCreacion")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("FechaResolucion")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid>("IdCuentaDestino")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("IdCuentaOrigen")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<decimal>("Monto")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("RazonRechazo")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("TransferenciaAgregado", "ms-libro-mayor");
                 });
 
             modelBuilder.Entity("NeoCore.Infrastructure.OutputPoint.Database.SqlServer.Entidades.EventoAlmacenEntidad", b =>

@@ -16,15 +16,13 @@ namespace NeoCore.Infrastructure.EntryPoint.Inyecciones
         {
             servicios.AddHttpContextAccessor();
             servicios.AddScoped<IIdempotenciaProveedor, IdempotenciaProveedor>();
+            servicios.AddScoped<FiltroIdempotencia>();
 
             servicios.AddControllers().AddJsonOptions(options =>
             {
                 options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
                 options.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
                 options.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
-            }).AddMvcOptions(options =>
-            {
-                options.Filters.Add<FiltroIdempotencia>();
             });
 
             servicios.AddExceptionHandler<ManejadorExcepciones>();
