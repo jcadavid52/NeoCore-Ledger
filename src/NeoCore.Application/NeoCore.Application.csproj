@@ -11,6 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\NeoCore - SharedKernel\shared-kernel\src\NeoCore.SharedKernel\NeoCore.SharedKernel.csproj" />
     <ProjectReference Include="..\NeoCore.Domain\NeoCore.Domain.csproj" />
   </ItemGroup>
 
