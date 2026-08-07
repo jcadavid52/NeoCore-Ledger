@@ -1,10 +1,16 @@
 {
   "Eventos": [
     {
-      "Tipo": "DepositarDinero",
-      "IdAgregado": "a873b08d-f25a-4910-9aeb-f30970c0ef2b",
+      "Tipo": "AcreditarDinero",
+      "IdAgregado": "A873B08D-F25A-4910-9AEB-F30970C0EF2B",
       "Monto": 1000000.00,
-      "IdCuentaOrigen": "00000000-0000-0000-0000-000000000000"
+      "IdCuenta": "A873B08D-F25A-4910-9AEB-F30970C0EF2B"
+    },
+    {
+      "Tipo": "AcreditarDinero",
+      "IdAgregado": "6B3740C7-EB44-40BA-B07C-1DF6FCE5BFC2",
+      "Monto": 1000000.00,
+      "IdCuenta": "6B3740C7-EB44-40BA-B07C-1DF6FCE5BFC2"
     }
   ]
 }

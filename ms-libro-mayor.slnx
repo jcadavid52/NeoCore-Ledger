@@ -1,4 +1,5 @@
 <Solution>
+  <Project Path="../NeoCore - SharedKernel/shared-kernel/src/NeoCore.SharedKernel/NeoCore.SharedKernel.csproj" />
   <Project Path="src/NeoCore.Application/NeoCore.Application.csproj" />
   <Project Path="src/NeoCore.Domain/NeoCore.Domain.csproj" />
   <Project Path="src/NeoCore.Infrastructure.EntryPoint/NeoCore.Infrastructure.EntryPoint.csproj" Id="83dba970-f272-421f-9f0c-9f86ae354171" />

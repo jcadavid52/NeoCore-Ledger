@@ -1,16 +1,14 @@
-﻿namespace NeoCore.Domain.Interfaces
+﻿using MediatR;
+
+namespace NeoCore.Domain.Interfaces
 {
-    public interface IEventoDominio
+    public interface IEventoDominio : INotification
     {
         Guid IdEvento { get; }
 
         Guid IdAgregado { get; }
 
         int Version { get; }
-
-        //public string TipoMensaje { get; }
-
-        //public string Dato { get; }
 
         DateTime OcurrioEn { get; }
     }

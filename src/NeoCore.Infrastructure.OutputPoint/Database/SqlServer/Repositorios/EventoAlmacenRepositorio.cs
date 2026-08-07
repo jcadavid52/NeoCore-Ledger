@@ -56,7 +56,6 @@ namespace NeoCore.Infrastructure.OutputPoint.Database.SqlServer.Repositorios
                 _contexto.EventoAlmacenEntidad.Add(nuevoEventoGuardado);
             }
 
-            await _contexto.SaveChangesAsync(cancellationToken);
         }
 
         public async Task<IReadOnlyCollection<IEventoDominio>> CargarAsync(Guid IdAgregado, CancellationToken cancellationToken)
@@ -69,7 +68,7 @@ namespace NeoCore.Infrastructure.OutputPoint.Database.SqlServer.Repositorios
 
             foreach (var eventoGuardado in eventosGuardados)
             {
-                var tipoEvento = Type.GetType($"NeoCore.Domain.Eventos.{eventoGuardado.TipoMensaje}, NeoCore.Domain");
+                var tipoEvento = Type.GetType($"NeoCore.Domain.EventosDominio.LibroContable.{eventoGuardado.TipoMensaje}, NeoCore.Domain");
 
                 if (tipoEvento != null)
                 {

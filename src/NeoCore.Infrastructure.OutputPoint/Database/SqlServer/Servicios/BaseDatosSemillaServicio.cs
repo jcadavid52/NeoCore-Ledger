@@ -2,10 +2,11 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using NeoCore.Domain.Eventos;
+using NeoCore.Domain.EventosDominio.LibroContable;
 using NeoCore.Domain.Interfaces;
 using NeoCore.Domain.Repositorios;
 using NeoCore.Infrastructure.OutputPoint.Database.SqlServer.Configuracion;
+using NeoCore.SharedKernel.LibroContable;
 using System.Text.Json;
 
 namespace NeoCore.Infrastructure.OutputPoint.Database.SqlServer.Servicios
@@ -15,15 +16,18 @@ namespace NeoCore.Infrastructure.OutputPoint.Database.SqlServer.Servicios
         private readonly IServiceProvider _serviceProvider;
         private readonly IConfiguration _configuration;
         private readonly ILogger<BaseDatosSemillaServicio> _logger;
+        private readonly IUnidadDeTrabajo _unitOfWork;
 
         public BaseDatosSemillaServicio(
             IServiceProvider serviceProvider,
             IConfiguration configuration,
-            ILogger<BaseDatosSemillaServicio> logger)
+            ILogger<BaseDatosSemillaServicio> logger,
+            IUnidadDeTrabajo unitOfWork)
         {
             _serviceProvider = serviceProvider;
             _configuration = configuration;
             _logger = logger;
+            _unitOfWork = unitOfWork;
         }
 
         public async Task StartAsync(CancellationToken cancellationToken)
@@ -35,8 +39,8 @@ namespace NeoCore.Infrastructure.OutputPoint.Database.SqlServer.Servicios
                 return;
 
             using var alcance = _serviceProvider.CreateScope();
-            var repositorio = alcance.ServiceProvider.GetRequiredService<IEventoAlmacenRepositorio>();
-
+            var eventoAlmacenRepositorio = alcance.ServiceProvider.GetRequiredService<IEventoAlmacenRepositorio>();
+            var unidadTrabajo = alcance.ServiceProvider.GetRequiredService<IUnidadDeTrabajo>();
             var ruta = seccion.Semilla.RutaArchivo
                 ?? "SeedData/seed-data.json";
 
@@ -59,7 +63,7 @@ namespace NeoCore.Infrastructure.OutputPoint.Database.SqlServer.Servicios
             {
                 var idAgregado = Guid.Parse(eventoDto.IdAgregado);
 
-                var eventosExistentes = await repositorio.CargarAsync(idAgregado, cancellationToken);
+                var eventosExistentes = await eventoAlmacenRepositorio.CargarAsync(idAgregado, cancellationToken);
                 if (eventosExistentes.Count > 0)
                 {
                     _logger.LogInformation("El agregado {IdAgregado} ya tiene eventos, se omite la semilla", idAgregado);
@@ -68,12 +72,14 @@ namespace NeoCore.Infrastructure.OutputPoint.Database.SqlServer.Servicios
 
                 var eventoDominio = CrearEventoDominio(eventoDto);
 
-                await repositorio.AgregarAsync(
+                await eventoAlmacenRepositorio.AgregarAsync(
                     idAgregado,
                     new[] { eventoDominio },
                     versionEsperada: 0,
                     cancellationToken);
 
+                await unidadTrabajo.SaveChangesAsync(cancellationToken);
+                
                 _logger.LogInformation("Semilla aplicada para agregado {IdAgregado}", idAgregado);
             }
         }
@@ -86,7 +92,11 @@ namespace NeoCore.Infrastructure.OutputPoint.Database.SqlServer.Servicios
 
             return dto.Tipo switch
             {
-                "DepositarDinero" => new DepositarDinero(dto.Monto, idAgregado, Guid.Parse(dto.IdCuentaOrigen)),
+                "AcreditarDinero" => new AcreditarDinero(
+                    dto.Monto,
+                    Guid.Parse(dto.IdCuenta),
+                    Guid.NewGuid(),
+                    TipoCorrelacionEnum.Transferencia),
                 _ => throw new InvalidOperationException($"Tipo de evento desconocido: {dto.Tipo}")
             };
         }
@@ -102,6 +112,6 @@ namespace NeoCore.Infrastructure.OutputPoint.Database.SqlServer.Servicios
         public string Tipo { get; init; } = string.Empty;
         public string IdAgregado { get; init; } = string.Empty;
         public decimal Monto { get; init; }
-        public string IdCuentaOrigen { get; init; } = "00000000-0000-0000-0000-000000000000";
+        public string IdCuenta { get; init; } = string.Empty;
     }
 }

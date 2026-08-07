@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using Microsoft.Extensions.DependencyInjection;
+using NeoCore.Application.CasosDeUso.Transferencias.Manejadores;
 using NeoCore.Application.Comportamientos;
 
 namespace NeoCore.Application.Inyecciones
@@ -9,6 +10,7 @@ namespace NeoCore.Application.Inyecciones
         public static IServiceCollection AgregarApplicationInyeccion(this IServiceCollection servicios)
         {
             servicios.AddTransient(typeof(IPipelineBehavior<,>), typeof(IdempotenciaComportamiento<,>));
+            servicios.AddScoped<IniciarTransferenciaManejador>();
 
             servicios.AddMediatR(configuration =>
             {
