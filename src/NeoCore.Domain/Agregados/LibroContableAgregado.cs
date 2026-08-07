@@ -1,13 +1,13 @@
-﻿using NeoCore.Domain.Eventos;
+﻿using NeoCore.Domain.Abstracciones;
+using NeoCore.Domain.EventosDominio.LibroContable;
 using NeoCore.Domain.Excepciones;
 using NeoCore.Domain.Interfaces;
 using NeoCore.SharedKernel.LibroContable;
 
 namespace NeoCore.Domain.Agregados
 {
-    public class LibroContableAgregado
+    public class LibroContableAgregado : AgregadoBase
     {
-        private readonly List<IEventoDominio> _eventosDominio = new();
         public Guid IdCuenta { get; private set; }
         public int Version { get; private set; } = -1;
         public decimal Balance { get; private set; }
@@ -19,7 +19,7 @@ namespace NeoCore.Domain.Agregados
             IdCuenta = idCuenta;
         }
 
-        public void Retirar(decimal monto)
+        public void Retirar(decimal monto,Guid idCorrelacion)
         {
             if (monto <= 0)
                 throw new DominioExcepcion("Monto inválido");
@@ -27,7 +27,7 @@ namespace NeoCore.Domain.Agregados
             if (Balance < monto)
                 throw new DominioExcepcion("Saldos insuficientes");
 
-            var evento = new DebitarDinero(monto, IdCuenta);
+            var evento = new DebitarDinero(monto, IdCuenta, idCorrelacion);
 
             LevantarEvento(evento);
         }
@@ -65,7 +65,7 @@ namespace NeoCore.Domain.Agregados
             LevantarEvento(evento);
         }
 
-        public void LiquidarBloqueo(decimal monto)
+        public void LiquidarBloqueo(decimal monto, Guid idCorrelacion)
         {
             if (monto <= 0)
                 throw new DominioExcepcion("Monto inválido");
@@ -73,7 +73,7 @@ namespace NeoCore.Domain.Agregados
             if (SaldoBloqueado < monto)
                 throw new DominioExcepcion("No hay suficiente saldo bloqueado");
 
-            var evento = new DebitarDinero(monto, IdCuenta);
+            var evento = new DebitarDinero(monto, IdCuenta, idCorrelacion);
 
             LevantarEvento(evento);
         }
@@ -134,7 +134,7 @@ namespace NeoCore.Domain.Agregados
         {
             AplicarEvento(evento);
 
-            _eventosDominio.Add(evento);
+            AgregarEvento(evento);
 
             Version++;
         }
@@ -157,11 +157,5 @@ namespace NeoCore.Domain.Agregados
                     break;
             }
         }
-
-        public IReadOnlyCollection<IEventoDominio> ObtenerEventosNoConfirmados()
-            => _eventosDominio.AsReadOnly();
-
-        public void LimpiarEventosNoConfirmados()
-            => _eventosDominio.Clear();
     }
 }

@@ -2,7 +2,6 @@
 using MediatR;
 using NeoCore.Application.CasosDeUso.LibroContable.Comandos;
 using NeoCore.Infrastructure.OutputPoint.Sagas.Comandos;
-using NeoCore.Infrastructure.OutputPoint.Sagas.TransferenciaEventos;
 using NeoCore.SharedKernel.LibroContable;
 
 
@@ -11,12 +10,10 @@ namespace NeoCore.Infrastructure.OutputPoint.Sagas.Consumidores
     public class LiquidarSaldoConsumer : IConsumer<LiquidarSaldoCommandSaga>
     {
         private readonly IMediator _mediator;
-        private readonly IPublishEndpoint _publishEndpoint;
 
-        public LiquidarSaldoConsumer(IMediator mediator, IPublishEndpoint publishEndpoint)
+        public LiquidarSaldoConsumer(IMediator mediator)
         {
             _mediator = mediator;
-            _publishEndpoint = publishEndpoint;
         }
 
         public async Task Consume(ConsumeContext<LiquidarSaldoCommandSaga> context)
@@ -29,16 +26,7 @@ namespace NeoCore.Infrastructure.OutputPoint.Sagas.Consumidores
                 msg.IdCorrelacion,
                 TipoCorrelacionEnum.Transferencia);
 
-            var resultado = await _mediator.Send(command, context.CancellationToken);
-
-            if (resultado.Exitoso)
-            {
-                await _publishEndpoint.Publish(
-                    new LiquidacionExitosa
-                    {
-                        TransferenciaId = msg.IdCorrelacion
-                    });
-            }
+            await _mediator.Send(command, context.CancellationToken);
         }
     }
 }

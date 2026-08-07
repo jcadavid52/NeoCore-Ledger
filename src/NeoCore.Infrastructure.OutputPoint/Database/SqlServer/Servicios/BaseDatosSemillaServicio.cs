@@ -2,7 +2,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using NeoCore.Domain.Eventos;
+using NeoCore.Domain.EventosDominio.LibroContable;
 using NeoCore.Domain.Interfaces;
 using NeoCore.Domain.Repositorios;
 using NeoCore.Infrastructure.OutputPoint.Database.SqlServer.Configuracion;

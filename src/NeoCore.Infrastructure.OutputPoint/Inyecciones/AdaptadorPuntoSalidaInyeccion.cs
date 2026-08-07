@@ -12,6 +12,7 @@ using NeoCore.Infrastructure.OutputPoint.Rest.Clientes.CuentasServicio;
 using NeoCore.Infrastructure.OutputPoint.Sagas.Consumidores;
 using NeoCore.Infrastructure.OutputPoint.Sagas.Estado;
 using NeoCore.Infrastructure.OutputPoint.Sagas.MaquinasDeEstado;
+using NeoCore.Infrastructure.OutputPoint.Sagas.Publicadores;
 using Polly;
 using Polly.Extensions.Http;
 
@@ -21,14 +22,16 @@ namespace NeoCore.Infrastructure.OutputPoint.Inyecciones
     {
         public static IServiceCollection AgregarAdaptadorPuntoSalida(this IServiceCollection servicios, IConfiguration configuracion)
         {
-            servicios.AddScoped<ILibroContableRepositorio, CuentaContableRepositorio>();
+            servicios.AddScoped<ILibroContableRepositorio, LibroContableRepositorio>();
             servicios.AddScoped<IEventoAlmacenRepositorio, EventoAlmacenRepositorio>();
             servicios.AddScoped<IIdempotenciaRepositorio, IdempotenciaRepositorio>();
+            servicios.AddScoped<ITransferenciaRepositorio, TransferenciaRepositorio>();
             servicios.AddScoped<IUnidadDeTrabajo, UnidadDeTrabajoSqlServer>();
             
             ConfiguracionSqlServer(servicios, configuracion);
             ConfiguracionMassTransit(servicios, configuracion);
             ConfiguracionClienteRest(servicios, configuracion);
+            ConfiguracionMediatR(servicios);
 
             return servicios;
         }
@@ -115,6 +118,18 @@ namespace NeoCore.Infrastructure.OutputPoint.Inyecciones
             })
             .AddPolicyHandler(circuitBreakerPolicy)
             .AddPolicyHandler(retryPolicy);
+        }
+
+        private static void ConfiguracionMediatR(IServiceCollection servicios)
+        {
+            servicios.AddMediatR(configuration =>
+            {
+                configuration.RegisterServicesFromAssembly(typeof(AdaptadorPuntoSalidaInyeccion).Assembly);
+                configuration.RegisterServicesFromAssembly(typeof(TransferenciaIniciadaPublicador).Assembly);
+                configuration.RegisterServicesFromAssembly(typeof(BloquearSaldoExistosoPublicador).Assembly);
+                configuration.RegisterServicesFromAssembly(typeof(LiquidarSaldoExistosoPublicador).Assembly);
+                configuration.RegisterServicesFromAssembly(typeof(AcreditarSaldoExitosoPublicador).Assembly);
+            });
         }
     }
 

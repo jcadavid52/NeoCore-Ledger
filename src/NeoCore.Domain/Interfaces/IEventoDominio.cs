@@ -1,6 +1,8 @@
-﻿namespace NeoCore.Domain.Interfaces
+﻿using MediatR;
+
+namespace NeoCore.Domain.Interfaces
 {
-    public interface IEventoDominio
+    public interface IEventoDominio : INotification
     {
         Guid IdEvento { get; }
 

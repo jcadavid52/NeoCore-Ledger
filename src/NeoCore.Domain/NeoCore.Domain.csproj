@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\NeoCore - SharedKernel\shared-kernel\src\NeoCore.SharedKernel\NeoCore.SharedKernel.csproj" />
+	<PackageReference Include="MediatR" Version="14.2.0" />
   </ItemGroup>
 
 </Project>

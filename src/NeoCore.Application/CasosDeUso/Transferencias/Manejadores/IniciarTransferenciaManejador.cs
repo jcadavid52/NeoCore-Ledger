@@ -1,28 +1,26 @@
-﻿using MassTransit;
-using MediatR;
+﻿using MediatR;
 using NeoCore.Application.CasosDeUso.Transferencias.Comandos;
 using NeoCore.Application.CasosDeUso.Transferencias.Respuestas;
 using NeoCore.Application.Interfaces;
 using NeoCore.Domain.Agregados;
 using NeoCore.Domain.Excepciones;
 using NeoCore.Domain.Repositorios;
-using NeoCore.SharedKernel.Transferencias;
 
 namespace NeoCore.Application.CasosDeUso.Transferencias.Manejadores
 {
     public class IniciarTransferenciaManejador: IRequestHandler<IniciarTransferenciaComando, IniciarTransferenciaRespuesta>
     {
-        private readonly IPublishEndpoint _publishEndpoint;
         private readonly ICuentaServicioCliente _accountClient;
+        private readonly ITransferenciaRepositorio _transferenciaRepositorio;
         private readonly IUnidadDeTrabajo _unitOfWork;
 
         public IniciarTransferenciaManejador(
-            IPublishEndpoint publishEndpoint,
             ICuentaServicioCliente accountClient,
+            ITransferenciaRepositorio transferenciaRepositorio,
             IUnidadDeTrabajo unitOfWork)
         {
-            _publishEndpoint = publishEndpoint;
             _accountClient = accountClient;
+            _transferenciaRepositorio = transferenciaRepositorio;
             _unitOfWork = unitOfWork;
         }
 
@@ -39,11 +37,7 @@ namespace NeoCore.Application.CasosDeUso.Transferencias.Manejadores
                 comando.IdCuentaOrigen,
                 comando.IdCuentaDestino);
 
-            await _publishEndpoint.Publish(new TransferenciaIniciada(
-                transferencia.IdCuentaOrigen,
-                transferencia.IdCuentaDestino,
-                transferencia.Monto,
-                transferencia.Id), cancellationToken);
+            await _transferenciaRepositorio.GuardarAsync(transferencia, cancellationToken);
 
             await _unitOfWork.SaveChangesAsync(cancellationToken);
 

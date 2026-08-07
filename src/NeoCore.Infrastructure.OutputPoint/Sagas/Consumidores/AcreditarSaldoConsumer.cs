@@ -28,16 +28,7 @@ namespace NeoCore.Infrastructure.OutputPoint.Sagas.Consumidores
                 msg.IdCorrelacion,
                 TipoCorrelacionEnum.Transferencia);
 
-            var resultado = await _mediator.Send(command, context.CancellationToken);
-
-            if (resultado.Exitoso)
-            {
-                await _publishEndpoint.Publish(
-                    new AcreditacionExitosa
-                    {
-                        TransferenciaId = msg.IdCorrelacion
-                    });
-            }
+            await _mediator.Send(command, context.CancellationToken);
         }
     }
 }

@@ -1,16 +1,16 @@
 using NeoCore.Domain.Abstracciones;
 using NeoCore.SharedKernel.LibroContable;
 
-namespace NeoCore.Domain.Eventos
+namespace NeoCore.Domain.EventosDominio.LibroContable
 {
-    public sealed record BloquearSaldo : EventoDominio
+    public sealed record AcreditarDinero : EventoDominio
     {
         public decimal Monto { get; init; }
         public Guid IdCuenta { get; init; }
         public Guid IdCorrelacion { get; init; }
         public TipoCorrelacionEnum TipoCorrelacion { get; init; }
 
-        public BloquearSaldo(
+        public AcreditarDinero(
             decimal monto,
             Guid idCuenta,
             Guid idCorrelacion,

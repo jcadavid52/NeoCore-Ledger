@@ -4,13 +4,17 @@ using NeoCore.Domain.Repositorios;
 
 namespace NeoCore.Infrastructure.OutputPoint.Database.SqlServer.Repositorios
 {
-    public class CuentaContableRepositorio : ILibroContableRepositorio
+    public class LibroContableRepositorio : ILibroContableRepositorio
     {
         private readonly IEventoAlmacenRepositorio _eventoAlmacenRepositorio;
+        private readonly IUnidadDeTrabajo _unidadDeTrabajo;
 
-        public CuentaContableRepositorio(IEventoAlmacenRepositorio eventoAlmacenRepositorio)
+        public LibroContableRepositorio(
+            IEventoAlmacenRepositorio eventoAlmacenRepositorio,
+            IUnidadDeTrabajo unidadDeTrabajo)
         {
             _eventoAlmacenRepositorio = eventoAlmacenRepositorio;
+            _unidadDeTrabajo = unidadDeTrabajo;
         }
 
         public async Task<LibroContableAgregado> CargarAsync(Guid idCuenta, CancellationToken cancellationToken)
@@ -32,7 +36,7 @@ namespace NeoCore.Infrastructure.OutputPoint.Database.SqlServer.Repositorios
 
         public async Task GuardarAsync(LibroContableAgregado cuentaContable, CancellationToken cancellationToken)
         {
-            var eventosNuevos = cuentaContable.ObtenerEventosNoConfirmados();
+            var eventosNuevos = cuentaContable.ObtenerEventosNoConfirmados;
 
             if (!eventosNuevos.Any()) return;
 
@@ -44,7 +48,7 @@ namespace NeoCore.Infrastructure.OutputPoint.Database.SqlServer.Repositorios
                 versionEsperada,
                 cancellationToken);
 
-            cuentaContable.LimpiarEventosNoConfirmados();
+            _unidadDeTrabajo.RegistrarAgregado(cuentaContable);
         }
     }
 }

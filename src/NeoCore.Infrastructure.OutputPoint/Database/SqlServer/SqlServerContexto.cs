@@ -12,11 +12,13 @@ namespace NeoCore.Infrastructure.OutputPoint.Database.SqlServer
 
         public DbSet<EventoAlmacenEntidad> EventoAlmacenEntidad { get; set; }
         public DbSet<IdempotenciaEntidad> IdempotenciaEntidad { get; set; }
+        public DbSet<TransferenciaAgregado> TransferenciaAgregado { get; set; }
 
         public SqlServerContexto(DbContextOptions<SqlServerContexto> opciones) : base(opciones)
         {
             EventoAlmacenEntidad = Set<EventoAlmacenEntidad>();
             IdempotenciaEntidad = Set<IdempotenciaEntidad>();
+            TransferenciaAgregado = Set<TransferenciaAgregado>();
         }
 
         protected override void OnModelCreating(ModelBuilder modeloConstructor)
@@ -28,6 +30,7 @@ namespace NeoCore.Infrastructure.OutputPoint.Database.SqlServer
             modeloConstructor.ApplyConfiguration(new EventoAlmacenTipoConfiguracion());
             modeloConstructor.ApplyConfiguration(new IdempotenciaTipoConfiguracion());
             modeloConstructor.ApplyConfiguration(new TransferenciaEstadoConfiguracion());
+            modeloConstructor.ApplyConfiguration(new TransferenciaAgregadoTipoConfiguracion());
 
             modeloConstructor.AddInboxStateEntity();
             modeloConstructor.AddOutboxMessageEntity();

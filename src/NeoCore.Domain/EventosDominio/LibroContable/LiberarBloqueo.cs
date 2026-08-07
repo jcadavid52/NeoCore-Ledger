@@ -1,7 +1,7 @@
 using NeoCore.Domain.Abstracciones;
 using NeoCore.SharedKernel.LibroContable;
 
-namespace NeoCore.Domain.Eventos
+namespace NeoCore.Domain.EventosDominio.LibroContable
 {
     public sealed record LiberarBloqueo : EventoDominio
     {
