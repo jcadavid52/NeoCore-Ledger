@@ -1,6 +1,6 @@
 ﻿namespace NeoCore.Infrastructure.OutputPoint.Mensajeria.RabbitMQ.TransferenciaEventos
 {
-    public record SaldoBloqueado
+    public record SaldoBloqueadoExitoso
     {
         public Guid TransferenciaId { get; init; }
     }

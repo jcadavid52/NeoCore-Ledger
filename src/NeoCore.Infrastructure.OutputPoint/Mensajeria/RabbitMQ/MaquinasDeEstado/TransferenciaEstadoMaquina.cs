@@ -20,10 +20,10 @@ namespace NeoCore.Infrastructure.OutputPoint.Mensajeria.RabbitMQ.MaquinasDeEstad
 
         public Event<TransferenciaIniciada> TransferenciaIniciadaEvt { get; private set; }
         public Event<ValidacionAceptada> ValidacionAceptadaEvt { get; private set; }
-        public Event<SaldoBloqueado> SaldoBloqueadoEvt { get; private set; }
-        public Event<AcreditacionExitosa> AcreditacionExitosaEvt { get; private set; }
-        public Event<LiquidacionExitosa> LiquidacionExitosaEvt { get; private set; }
-        public Event<NotificacionCompleta> NotificacionCompletaEvt { get; private set; }
+        public Event<SaldoBloqueadoExitoso> SaldoBloqueadoEvt { get; private set; }
+        public Event<AcreditacionSaldoExitoso> AcreditacionExitosaEvt { get; private set; }
+        public Event<LiquidacionSaldoExitoso> LiquidacionExitosaEvt { get; private set; }
+        public Event<NotificacionTransferenciaExitoso> NotificacionCompletaEvt { get; private set; }
 
         public TransferenciaEstadoMaquina()
         {

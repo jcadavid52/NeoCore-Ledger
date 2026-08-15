@@ -1,6 +1,7 @@
 ﻿using MassTransit;
 using MediatR;
 using NeoCore.Domain.EventosDominio.LibroContable;
+using NeoCore.Infrastructure.OutputPoint.Mensajeria.RabbitMQ.TransferenciaEventos;
 
 namespace NeoCore.Infrastructure.OutputPoint.Mensajeria.RabbitMQ.Publicadores
 {
@@ -15,7 +16,7 @@ namespace NeoCore.Infrastructure.OutputPoint.Mensajeria.RabbitMQ.Publicadores
 
         public async Task Handle(BloquearSaldo notification, CancellationToken cancellationToken)
         {
-            await _publishEndpoint.Publish(new SaldoBloqueado
+            await _publishEndpoint.Publish(new SaldoBloqueadoExitoso
             {
                 TransferenciaId = notification.IdCorrelacion
             }, cancellationToken);
