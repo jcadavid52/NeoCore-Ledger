@@ -3,7 +3,7 @@ using MediatR;
 using NeoCore.Domain.EventosDominio.LibroContable;
 using NeoCore.Infrastructure.OutputPoint.Sagas.TransferenciaEventos;
 
-namespace NeoCore.Infrastructure.OutputPoint.Sagas.Publicadores
+namespace NeoCore.Infrastructure.OutputPoint.Mensajeria.RabbitMQ.Publicadores
 {
     public class LiquidarSaldoExistosoPublicador : INotificationHandler<DebitarDinero>
     {

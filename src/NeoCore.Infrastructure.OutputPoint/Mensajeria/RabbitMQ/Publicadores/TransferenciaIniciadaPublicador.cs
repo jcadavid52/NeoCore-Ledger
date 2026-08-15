@@ -3,7 +3,7 @@ using MediatR;
 using NeoCore.Domain.EventosDominio.Transferencia;
 using NeoCore.SharedKernel.Transferencias;
 
-namespace NeoCore.Infrastructure.OutputPoint.Sagas.Publicadores
+namespace NeoCore.Infrastructure.OutputPoint.Mensajeria.RabbitMQ.Publicadores
 {
     public class TransferenciaIniciadaPublicador : INotificationHandler<IniciarTransferencia>
     {

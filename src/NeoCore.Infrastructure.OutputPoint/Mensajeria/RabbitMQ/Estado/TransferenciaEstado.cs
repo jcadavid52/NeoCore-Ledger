@@ -1,6 +1,6 @@
 ﻿using MassTransit;
 
-namespace NeoCore.Infrastructure.OutputPoint.Sagas.Estado
+namespace NeoCore.Infrastructure.OutputPoint.Mensajeria.RabbitMQ.Estado
 {
     public class TransferenciaEstado : SagaStateMachineInstance
     {

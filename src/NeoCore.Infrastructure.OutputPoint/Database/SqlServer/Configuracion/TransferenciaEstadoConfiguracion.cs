@@ -1,7 +1,7 @@
 using MassTransit.EntityFrameworkCoreIntegration;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using NeoCore.Infrastructure.OutputPoint.Sagas.Estado;
+using NeoCore.Infrastructure.OutputPoint.Mensajeria.RabbitMQ.Estado;
 
 namespace NeoCore.Infrastructure.OutputPoint.Database.SqlServer.Configuracion
 {

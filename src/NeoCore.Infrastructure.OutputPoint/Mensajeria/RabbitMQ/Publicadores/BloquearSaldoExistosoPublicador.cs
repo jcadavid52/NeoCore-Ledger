@@ -3,20 +3,20 @@ using MediatR;
 using NeoCore.Domain.EventosDominio.LibroContable;
 using NeoCore.Infrastructure.OutputPoint.Sagas.TransferenciaEventos;
 
-namespace NeoCore.Infrastructure.OutputPoint.Sagas.Publicadores
+namespace NeoCore.Infrastructure.OutputPoint.Mensajeria.RabbitMQ.Publicadores
 {
-    public class AcreditarSaldoExitosoPublicador : INotificationHandler<AcreditarDinero>
+    public class BloquearSaldoExistosoPublicador : INotificationHandler<BloquearSaldo>
     {
         private readonly IPublishEndpoint _publishEndpoint;
 
-        public AcreditarSaldoExitosoPublicador(IPublishEndpoint publishEndpoint)
+        public BloquearSaldoExistosoPublicador(IPublishEndpoint publishEndpoint)
         {
             _publishEndpoint = publishEndpoint;
         }
 
-        public async Task Handle(AcreditarDinero notification, CancellationToken cancellationToken)
+        public async Task Handle(BloquearSaldo notification, CancellationToken cancellationToken)
         {
-            await _publishEndpoint.Publish(new AcreditacionExitosa
+            await _publishEndpoint.Publish(new SaldoBloqueado
             {
                 TransferenciaId = notification.IdCorrelacion
             }, cancellationToken);

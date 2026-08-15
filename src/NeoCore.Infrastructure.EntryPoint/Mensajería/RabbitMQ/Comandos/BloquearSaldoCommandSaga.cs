@@ -1,6 +1,6 @@
-﻿namespace NeoCore.Infrastructure.OutputPoint.Sagas.Comandos
+﻿namespace NeoCore.Infrastructure.EntryPoint.Mensajería.RabbitMQ.Comandos
 {
-    public record LiquidarSaldoCommandSaga
+    public record BloquearSaldoCommandSaga
     {
         public Guid IdCorrelacion { get; init; }
         public Guid IdCuentaOrigen { get; init; }

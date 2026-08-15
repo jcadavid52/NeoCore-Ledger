@@ -1,10 +1,10 @@
 ﻿using MassTransit;
 using MediatR;
 using NeoCore.Application.CasosDeUso.LibroContable.Comandos;
-using NeoCore.Infrastructure.OutputPoint.Sagas.Comandos;
+using NeoCore.Infrastructure.EntryPoint.Mensajería.RabbitMQ.Comandos;
 using NeoCore.SharedKernel.LibroContable;
 
-namespace NeoCore.Infrastructure.OutputPoint.Sagas.Consumidores
+namespace NeoCore.Infrastructure.EntryPoint.Mensajería.RabbitMQ.Consumidores
 {
     public class BloquearSaldoConsumer : IConsumer<BloquearSaldoCommandSaga>
     {

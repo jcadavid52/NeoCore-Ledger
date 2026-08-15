@@ -1,4 +1,4 @@
-﻿namespace NeoCore.Infrastructure.OutputPoint.Sagas.TransferenciaEventos
+﻿namespace NeoCore.Infrastructure.OutputPoint.Mensajeria.RabbitMQ.TransferenciaEventos
 {
     public record NotificacionCompleta
     {

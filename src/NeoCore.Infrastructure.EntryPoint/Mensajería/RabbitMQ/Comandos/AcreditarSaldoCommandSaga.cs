@@ -1,4 +1,4 @@
-﻿namespace NeoCore.Infrastructure.OutputPoint.Sagas.Comandos
+﻿namespace NeoCore.Infrastructure.EntryPoint.Mensajería.RabbitMQ.Comandos
 {
     public class AcreditarSaldoCommandSaga
     {

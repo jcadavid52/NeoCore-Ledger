@@ -1,10 +1,10 @@
 ﻿using MassTransit;
-using NeoCore.Infrastructure.OutputPoint.Sagas.Comandos;
-using NeoCore.Infrastructure.OutputPoint.Sagas.Estado;
-using NeoCore.Infrastructure.OutputPoint.Sagas.TransferenciaEventos;
+using NeoCore.Infrastructure.EntryPoint.Mensajería.RabbitMQ.Comandos;
+using NeoCore.Infrastructure.OutputPoint.Mensajeria.RabbitMQ.Estado;
+using NeoCore.Infrastructure.OutputPoint.Mensajeria.RabbitMQ.TransferenciaEventos;
 using NeoCore.SharedKernel.Transferencias;
 
-namespace NeoCore.Infrastructure.OutputPoint.Sagas.MaquinasDeEstado
+namespace NeoCore.Infrastructure.OutputPoint.Mensajeria.RabbitMQ.MaquinasDeEstado
 {
     public class TransferenciaEstadoMaquina: MassTransitStateMachine<TransferenciaEstado>
     {
