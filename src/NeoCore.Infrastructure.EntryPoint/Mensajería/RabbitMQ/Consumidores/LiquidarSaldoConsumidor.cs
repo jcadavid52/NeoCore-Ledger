@@ -1,24 +1,26 @@
 ﻿using MassTransit;
 using MediatR;
 using NeoCore.Application.CasosDeUso.LibroContable.Comandos;
-using NeoCore.Infrastructure.EntryPoint.Mensajería.RabbitMQ.Comandos;
+using NeoCore.Infrastructure.EntryPoint.Mensajería.RabbitMQ.Consumidores.Comandos;
 using NeoCore.SharedKernel.LibroContable;
+
 
 namespace NeoCore.Infrastructure.EntryPoint.Mensajería.RabbitMQ.Consumidores
 {
-    public class BloquearSaldoConsumer : IConsumer<BloquearSaldoCommandSaga>
+    public class LiquidarSaldoConsumidor : IConsumer<LiquidarSaldoComandoConsumidor>
     {
         private readonly IMediator _mediator;
 
-        public BloquearSaldoConsumer(IMediator mediator)
+        public LiquidarSaldoConsumidor(IMediator mediator)
         {
             _mediator = mediator;
         }
-        public async Task Consume(ConsumeContext<BloquearSaldoCommandSaga> context)
+
+        public async Task Consume(ConsumeContext<LiquidarSaldoComandoConsumidor> context)
         {
             var msg = context.Message;
 
-            var command = new BloquearSaldoComando(
+            var command = new LiquidarSaldoComando(
                 msg.IdCuentaOrigen,
                 msg.Monto,
                 msg.IdCorrelacion,

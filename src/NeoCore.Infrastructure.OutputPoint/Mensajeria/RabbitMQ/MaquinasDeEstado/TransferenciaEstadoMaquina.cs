@@ -1,5 +1,5 @@
 ﻿using MassTransit;
-using NeoCore.Infrastructure.EntryPoint.Mensajería.RabbitMQ.Comandos;
+using NeoCore.Infrastructure.EntryPoint.Mensajería.RabbitMQ.Consumidores.Comandos;
 using NeoCore.Infrastructure.OutputPoint.Mensajeria.RabbitMQ.Estado;
 using NeoCore.Infrastructure.OutputPoint.Mensajeria.RabbitMQ.TransferenciaEventos;
 using NeoCore.SharedKernel.Transferencias;
@@ -58,7 +58,7 @@ namespace NeoCore.Infrastructure.OutputPoint.Mensajeria.RabbitMQ.MaquinasDeEstad
 
             During(ValidandoRespuesta,
                When(ValidacionAceptadaEvt)
-                   .PublishAsync(ctx => ctx.Init<BloquearSaldoCommandSaga>(new
+                   .PublishAsync(ctx => ctx.Init<BloquearSaldoComandoConsumidor>(new
                    {
                        IdCorrelacion = ctx.Saga.CorrelationId,
                        IdCuentaOrigen = ctx.Saga.CuentaOrigenId,
@@ -68,7 +68,7 @@ namespace NeoCore.Infrastructure.OutputPoint.Mensajeria.RabbitMQ.MaquinasDeEstad
 
             During(BloqueandoSaldo,
                 When(SaldoBloqueadoEvt)
-                    .PublishAsync(ctx => ctx.Init<AcreditarSaldoCommandSaga>(new
+                    .PublishAsync(ctx => ctx.Init<AcreditarSaldoComandoConsumidor>(new
                     {
                         IdCorrelacion = ctx.Saga.CorrelationId,
                         IdCuentaDestino = ctx.Saga.CuentaDestinoId,
@@ -78,7 +78,7 @@ namespace NeoCore.Infrastructure.OutputPoint.Mensajeria.RabbitMQ.MaquinasDeEstad
 
             During(AcreditandoDestino,
                 When(AcreditacionExitosaEvt)
-                    .PublishAsync(ctx => ctx.Init<LiquidarSaldoCommandSaga>(new
+                    .PublishAsync(ctx => ctx.Init<LiquidarSaldoComandoConsumidor>(new
                     {
                         IdCorrelacion = ctx.Saga.CorrelationId,
                         IdCuentaOrigen = ctx.Saga.CuentaOrigenId,
