@@ -11,12 +11,10 @@ namespace NeoCore.Infrastructure.OutputPoint.Sagas.Consumidores
     public class AcreditarSaldoConsumer : IConsumer<AcreditarSaldoCommandSaga>
     {
         private readonly IMediator _mediator;
-        private readonly IPublishEndpoint _publishEndpoint;
 
-        public AcreditarSaldoConsumer(IMediator mediator, IPublishEndpoint publishEndpoint)
+        public AcreditarSaldoConsumer(IMediator mediator)
         {
             _mediator = mediator;
-            _publishEndpoint = publishEndpoint;
         }
         public async Task Consume(ConsumeContext<AcreditarSaldoCommandSaga> context)
         {

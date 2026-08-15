@@ -9,12 +9,10 @@ namespace NeoCore.Infrastructure.OutputPoint.Sagas.Consumidores
     public class BloquearSaldoConsumer : IConsumer<BloquearSaldoCommandSaga>
     {
         private readonly IMediator _mediator;
-        private readonly IPublishEndpoint _publishEndpoint;
 
-        public BloquearSaldoConsumer(IMediator mediator, IPublishEndpoint publishEndpoint)
+        public BloquearSaldoConsumer(IMediator mediator)
         {
             _mediator = mediator;
-            _publishEndpoint = publishEndpoint;
         }
         public async Task Consume(ConsumeContext<BloquearSaldoCommandSaga> context)
         {

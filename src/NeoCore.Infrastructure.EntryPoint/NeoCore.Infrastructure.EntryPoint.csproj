@@ -5,6 +5,12 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Mensajería\Consumidores\**" />
+    <EmbeddedResource Remove="Mensajería\Consumidores\**" />
+    <None Remove="Mensajería\Consumidores\**" />
+  </ItemGroup>
 	<ItemGroup>
 		<FrameworkReference Include="Microsoft.AspNetCore.App" />
 	</ItemGroup>
@@ -12,6 +18,6 @@
 	  <ProjectReference Include="..\NeoCore.Application\NeoCore.Application.csproj" />
 	</ItemGroup>
 	<ItemGroup>
-	  <Folder Include="Mensajería\Consumidores\" />
+	  <Folder Include="Mensajería\" />
 	</ItemGroup>
 </Project>
