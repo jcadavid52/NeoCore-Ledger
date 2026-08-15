@@ -1,5 +1,5 @@
 ﻿using MediatR;
-using NeoCore.Application.Interfaces;
+using NeoCore.Application.PuertosEntrada;
 
 namespace NeoCore.Application.CasosDeUso.LibroContable.Comandos
 {

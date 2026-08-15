@@ -1,4 +1,4 @@
-namespace NeoCore.Application.Interfaces
+namespace NeoCore.Application.PuertosSalida
 {
     public interface ICuentaServicioCliente
     {

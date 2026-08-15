@@ -1,7 +1,7 @@
 ﻿using MediatR;
 using NeoCore.Application.CasosDeUso.Transferencias.Comandos;
 using NeoCore.Application.CasosDeUso.Transferencias.Respuestas;
-using NeoCore.Application.Interfaces;
+using NeoCore.Application.PuertosSalida;
 using NeoCore.Domain.Agregados;
 using NeoCore.Domain.Excepciones;
 using NeoCore.Domain.Repositorios;

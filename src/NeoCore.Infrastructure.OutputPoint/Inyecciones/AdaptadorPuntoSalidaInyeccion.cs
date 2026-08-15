@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using NeoCore.Application.Interfaces;
+using NeoCore.Application.PuertosSalida;
 using NeoCore.Domain.Repositorios;
 using NeoCore.Infrastructure.EntryPoint.Mensajería.RabbitMQ.Consumidores;
 using NeoCore.Infrastructure.OutputPoint.Database.SqlServer;

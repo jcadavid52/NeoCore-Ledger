@@ -4,9 +4,9 @@ using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
-using NeoCore.Application.Interfaces;
 using NeoCore.Infrastructure.EntryPoint.Rest.Excepciones;
 using NeoCore.Infrastructure.EntryPoint.Rest.Filtros;
+using NeoCore.Application.PuertosEntrada;
 
 namespace NeoCore.Infrastructure.EntryPoint.Inyecciones
 {
