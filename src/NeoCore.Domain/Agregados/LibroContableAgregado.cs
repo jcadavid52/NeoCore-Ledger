@@ -19,7 +19,7 @@ namespace NeoCore.Domain.Agregados
             IdCuenta = idCuenta;
         }
 
-        public void Retirar(decimal monto,Guid idCorrelacion)
+        public void Retirar(decimal monto, Guid idCorrelacion)
         {
             if (monto <= 0)
                 throw new DominioExcepcion("Monto inválido");
@@ -43,7 +43,7 @@ namespace NeoCore.Domain.Agregados
             if (SaldoDisponible < monto)
                 throw new DominioExcepcion("Saldo disponible insuficiente");
 
-            var evento = new BloquearSaldo(monto, IdCuenta,idCorrelacion,tipoCorrelacion);
+            var evento = new BloquearSaldo(monto, IdCuenta, idCorrelacion, tipoCorrelacion);
 
             LevantarEvento(evento);
         }

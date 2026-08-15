@@ -1,5 +1,4 @@
-﻿using MassTransit;
-using MediatR;
+﻿using MediatR;
 using NeoCore.Application.CasosDeUso.LibroContable.Comandos;
 using NeoCore.Domain.Repositorios;
 

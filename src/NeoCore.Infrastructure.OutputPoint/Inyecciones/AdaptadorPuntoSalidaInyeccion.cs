@@ -27,7 +27,7 @@ namespace NeoCore.Infrastructure.OutputPoint.Inyecciones
             servicios.AddScoped<IIdempotenciaRepositorio, IdempotenciaRepositorio>();
             servicios.AddScoped<ITransferenciaRepositorio, TransferenciaRepositorio>();
             servicios.AddScoped<IUnidadDeTrabajo, UnidadDeTrabajoSqlServer>();
-            
+
             ConfiguracionSqlServer(servicios, configuracion);
             ConfiguracionMassTransit(servicios, configuracion);
             ConfiguracionClienteRest(servicios, configuracion);

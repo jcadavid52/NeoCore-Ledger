@@ -6,7 +6,7 @@ namespace NeoCore.Domain.Abstracciones
     {
         private readonly List<IEventoDominio> _eventosDominio = new();
 
-        public IReadOnlyCollection<IEventoDominio> ObtenerEventosNoConfirmados 
+        public IReadOnlyCollection<IEventoDominio> ObtenerEventosNoConfirmados
             => _eventosDominio.AsReadOnly();
 
         public void AgregarEvento(IEventoDominio evento)

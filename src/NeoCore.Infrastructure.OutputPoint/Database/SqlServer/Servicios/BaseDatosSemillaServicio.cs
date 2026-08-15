@@ -79,7 +79,7 @@ namespace NeoCore.Infrastructure.OutputPoint.Database.SqlServer.Servicios
                     cancellationToken);
 
                 await unidadTrabajo.SaveChangesAsync(cancellationToken);
-                
+
                 _logger.LogInformation("Semilla aplicada para agregado {IdAgregado}", idAgregado);
             }
         }

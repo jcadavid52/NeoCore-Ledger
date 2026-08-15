@@ -24,7 +24,7 @@ namespace NeoCore.Application.CasosDeUso.LibroContable.Manejadores
         public async Task Handle(LiquidarSaldoComando comando, CancellationToken cancellationToken)
         {
             var cuenta = await _repositorio.CargarAsync(comando.IdCuentaOrigen, cancellationToken);
-            cuenta.LiquidarBloqueo(comando.Monto,comando.IdCorrelacion);
+            cuenta.LiquidarBloqueo(comando.Monto, comando.IdCorrelacion);
 
             await _repositorio.GuardarAsync(cuenta, cancellationToken);
 

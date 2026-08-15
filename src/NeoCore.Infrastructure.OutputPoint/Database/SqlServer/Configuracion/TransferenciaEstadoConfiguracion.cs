@@ -1,4 +1,3 @@
-using MassTransit.EntityFrameworkCoreIntegration;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using NeoCore.Infrastructure.OutputPoint.Mensajeria.RabbitMQ.Estado;

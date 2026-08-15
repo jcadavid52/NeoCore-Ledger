@@ -8,7 +8,7 @@ using NeoCore.Domain.Repositorios;
 
 namespace NeoCore.Application.CasosDeUso.Transferencias.Manejadores
 {
-    public class IniciarTransferenciaManejador: IRequestHandler<IniciarTransferenciaComando, IniciarTransferenciaRespuesta>
+    public class IniciarTransferenciaManejador : IRequestHandler<IniciarTransferenciaComando, IniciarTransferenciaRespuesta>
     {
         private readonly ICuentaServicioCliente _accountClient;
         private readonly ITransferenciaRepositorio _transferenciaRepositorio;
@@ -29,7 +29,7 @@ namespace NeoCore.Application.CasosDeUso.Transferencias.Manejadores
             var destinoValido = await _accountClient.ValidarCuentaAsync(comando.IdCuentaDestino, cancellationToken);
             if (!destinoValido)
                 throw new ExcepcionConflicto($"La cuenta destino {comando.IdCuentaDestino} no es válida");
-           
+
             var transferencia = new TransferenciaAgregado();
 
             transferencia.Iniciar(

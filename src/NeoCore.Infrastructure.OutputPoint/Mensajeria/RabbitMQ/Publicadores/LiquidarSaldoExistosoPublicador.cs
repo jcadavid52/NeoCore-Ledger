@@ -1,7 +1,6 @@
 ﻿using MassTransit;
 using MediatR;
 using NeoCore.Domain.EventosDominio.LibroContable;
-using NeoCore.Infrastructure.OutputPoint.Sagas.TransferenciaEventos;
 
 namespace NeoCore.Infrastructure.OutputPoint.Mensajeria.RabbitMQ.Publicadores
 {
@@ -19,7 +18,7 @@ namespace NeoCore.Infrastructure.OutputPoint.Mensajeria.RabbitMQ.Publicadores
             await _publishEndpoint.Publish(new LiquidacionExitosa
             {
                 TransferenciaId = notification.IdCorrelacion
-            },cancellationToken);
+            }, cancellationToken);
         }
     }
 }

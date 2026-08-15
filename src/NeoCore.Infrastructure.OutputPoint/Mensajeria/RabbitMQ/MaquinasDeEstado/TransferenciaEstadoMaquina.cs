@@ -6,7 +6,7 @@ using NeoCore.SharedKernel.Transferencias;
 
 namespace NeoCore.Infrastructure.OutputPoint.Mensajeria.RabbitMQ.MaquinasDeEstado
 {
-    public class TransferenciaEstadoMaquina: MassTransitStateMachine<TransferenciaEstado>
+    public class TransferenciaEstadoMaquina : MassTransitStateMachine<TransferenciaEstado>
     {
         public State ValidandoRespuesta { get; private set; }
         public State BloqueandoSaldo { get; private set; }

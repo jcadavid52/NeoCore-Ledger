@@ -1,6 +1,5 @@
 using Microsoft.EntityFrameworkCore;
 using NeoCore.Domain.Agregados;
-using NeoCore.Domain.Excepciones;
 using NeoCore.Domain.Repositorios;
 
 namespace NeoCore.Infrastructure.OutputPoint.Database.SqlServer.Repositorios

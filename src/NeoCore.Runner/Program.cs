@@ -1,6 +1,6 @@
-using NeoCore.Infrastructure.OutputPoint.Inyecciones;
-using NeoCore.Infrastructure.EntryPoint.Inyecciones;
 using NeoCore.Application.Inyecciones;
+using NeoCore.Infrastructure.EntryPoint.Inyecciones;
+using NeoCore.Infrastructure.OutputPoint.Inyecciones;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AgregarAdaptadorPuntoSalida(builder.Configuration);
