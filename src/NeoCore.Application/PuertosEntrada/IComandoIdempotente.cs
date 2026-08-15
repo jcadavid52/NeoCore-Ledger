@@ -1,4 +1,4 @@
-namespace NeoCore.Application.Interfaces
+namespace NeoCore.Application.PuertosEntrada
 {
     public interface IComandoIdempotente
     {

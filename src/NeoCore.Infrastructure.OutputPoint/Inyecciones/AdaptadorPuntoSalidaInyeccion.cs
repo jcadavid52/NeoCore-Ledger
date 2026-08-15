@@ -2,17 +2,17 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using NeoCore.Application.Interfaces;
+using NeoCore.Application.PuertosSalida;
 using NeoCore.Domain.Repositorios;
+using NeoCore.Infrastructure.EntryPoint.Mensajería.RabbitMQ.Consumidores;
 using NeoCore.Infrastructure.OutputPoint.Database.SqlServer;
 using NeoCore.Infrastructure.OutputPoint.Database.SqlServer.Configuracion;
 using NeoCore.Infrastructure.OutputPoint.Database.SqlServer.Repositorios;
 using NeoCore.Infrastructure.OutputPoint.Database.SqlServer.Servicios;
+using NeoCore.Infrastructure.OutputPoint.Mensajeria.RabbitMQ.Estado;
+using NeoCore.Infrastructure.OutputPoint.Mensajeria.RabbitMQ.MaquinasDeEstado;
+using NeoCore.Infrastructure.OutputPoint.Mensajeria.RabbitMQ.Publicadores;
 using NeoCore.Infrastructure.OutputPoint.Rest.Clientes.CuentasServicio;
-using NeoCore.Infrastructure.OutputPoint.Sagas.Consumidores;
-using NeoCore.Infrastructure.OutputPoint.Sagas.Estado;
-using NeoCore.Infrastructure.OutputPoint.Sagas.MaquinasDeEstado;
-using NeoCore.Infrastructure.OutputPoint.Sagas.Publicadores;
 using Polly;
 using Polly.Extensions.Http;
 
@@ -27,7 +27,7 @@ namespace NeoCore.Infrastructure.OutputPoint.Inyecciones
             servicios.AddScoped<IIdempotenciaRepositorio, IdempotenciaRepositorio>();
             servicios.AddScoped<ITransferenciaRepositorio, TransferenciaRepositorio>();
             servicios.AddScoped<IUnidadDeTrabajo, UnidadDeTrabajoSqlServer>();
-            
+
             ConfiguracionSqlServer(servicios, configuracion);
             ConfiguracionMassTransit(servicios, configuracion);
             ConfiguracionClienteRest(servicios, configuracion);
@@ -76,9 +76,9 @@ namespace NeoCore.Infrastructure.OutputPoint.Inyecciones
                         r.UseSqlServer();
                     });
 
-                x.AddConsumer<BloquearSaldoConsumer>();
-                x.AddConsumer<AcreditarSaldoConsumer>();
-                x.AddConsumer<LiquidarSaldoConsumer>();
+                x.AddConsumer<BloquearSaldoConsumidor>();
+                x.AddConsumer<AcreditarSaldoConsumidor>();
+                x.AddConsumer<LiquidarSaldoConsumidor>();
 
                 x.AddEntityFrameworkOutbox<SqlServerContexto>(o =>
                 {

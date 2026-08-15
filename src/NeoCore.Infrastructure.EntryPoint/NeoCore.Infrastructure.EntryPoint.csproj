@@ -7,11 +7,9 @@
   </PropertyGroup>
 	<ItemGroup>
 		<FrameworkReference Include="Microsoft.AspNetCore.App" />
+		<PackageReference Include="MassTransit" Version="8.3.6" />
 	</ItemGroup>
 	<ItemGroup>
 	  <ProjectReference Include="..\NeoCore.Application\NeoCore.Application.csproj" />
-	</ItemGroup>
-	<ItemGroup>
-	  <Folder Include="Mensajería\Consumidores\" />
 	</ItemGroup>
 </Project>

@@ -1,7 +1,6 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using NeoCore.Application.CasosDeUso.Transferencias.Comandos;
-using NeoCore.Application.CasosDeUso.Transferencias.Manejadores;
 using NeoCore.Infrastructure.EntryPoint.Rest.Filtros;
 
 namespace NeoCore.Infrastructure.EntryPoint.Rest.Controllers

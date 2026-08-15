@@ -1,5 +1,4 @@
-﻿using MassTransit;
-using MediatR;
+﻿using MediatR;
 using NeoCore.Application.CasosDeUso.LibroContable.Comandos;
 using NeoCore.Domain.Repositorios;
 using NeoCore.SharedKernel.LibroContable;
@@ -22,7 +21,7 @@ namespace NeoCore.Application.CasosDeUso.LibroContable.Manejadores
         public async Task Handle(AcreditarSaldoComando comando, CancellationToken cancellationToken)
         {
             var cuenta = await _repositorio.CargarAsync(comando.IdCuentaDestino, cancellationToken);
-            cuenta.Acreditar(comando.Monto,comando.IdCorrelacion, TipoCorrelacionEnum.Transferencia);
+            cuenta.Acreditar(comando.Monto, comando.IdCorrelacion, TipoCorrelacionEnum.Transferencia);
 
             await _repositorio.GuardarAsync(cuenta, cancellationToken);
 

@@ -1,12 +1,12 @@
 ﻿using MassTransit;
-using NeoCore.Infrastructure.OutputPoint.Sagas.Comandos;
-using NeoCore.Infrastructure.OutputPoint.Sagas.Estado;
-using NeoCore.Infrastructure.OutputPoint.Sagas.TransferenciaEventos;
+using NeoCore.Infrastructure.EntryPoint.Mensajería.RabbitMQ.Consumidores.Comandos;
+using NeoCore.Infrastructure.OutputPoint.Mensajeria.RabbitMQ.Estado;
+using NeoCore.Infrastructure.OutputPoint.Mensajeria.RabbitMQ.TransferenciaEventos;
 using NeoCore.SharedKernel.Transferencias;
 
-namespace NeoCore.Infrastructure.OutputPoint.Sagas.MaquinasDeEstado
+namespace NeoCore.Infrastructure.OutputPoint.Mensajeria.RabbitMQ.MaquinasDeEstado
 {
-    public class TransferenciaEstadoMaquina: MassTransitStateMachine<TransferenciaEstado>
+    public class TransferenciaEstadoMaquina : MassTransitStateMachine<TransferenciaEstado>
     {
         public State ValidandoRespuesta { get; private set; }
         public State BloqueandoSaldo { get; private set; }
@@ -20,10 +20,10 @@ namespace NeoCore.Infrastructure.OutputPoint.Sagas.MaquinasDeEstado
 
         public Event<TransferenciaIniciada> TransferenciaIniciadaEvt { get; private set; }
         public Event<ValidacionAceptada> ValidacionAceptadaEvt { get; private set; }
-        public Event<SaldoBloqueado> SaldoBloqueadoEvt { get; private set; }
-        public Event<AcreditacionExitosa> AcreditacionExitosaEvt { get; private set; }
-        public Event<LiquidacionExitosa> LiquidacionExitosaEvt { get; private set; }
-        public Event<NotificacionCompleta> NotificacionCompletaEvt { get; private set; }
+        public Event<SaldoBloqueadoExitoso> SaldoBloqueadoEvt { get; private set; }
+        public Event<AcreditacionSaldoExitoso> AcreditacionExitosaEvt { get; private set; }
+        public Event<LiquidacionSaldoExitoso> LiquidacionExitosaEvt { get; private set; }
+        public Event<NotificacionTransferenciaExitoso> NotificacionCompletaEvt { get; private set; }
 
         public TransferenciaEstadoMaquina()
         {
@@ -58,7 +58,7 @@ namespace NeoCore.Infrastructure.OutputPoint.Sagas.MaquinasDeEstado
 
             During(ValidandoRespuesta,
                When(ValidacionAceptadaEvt)
-                   .PublishAsync(ctx => ctx.Init<BloquearSaldoCommandSaga>(new
+                   .PublishAsync(ctx => ctx.Init<BloquearSaldoComandoConsumidor>(new
                    {
                        IdCorrelacion = ctx.Saga.CorrelationId,
                        IdCuentaOrigen = ctx.Saga.CuentaOrigenId,
@@ -68,7 +68,7 @@ namespace NeoCore.Infrastructure.OutputPoint.Sagas.MaquinasDeEstado
 
             During(BloqueandoSaldo,
                 When(SaldoBloqueadoEvt)
-                    .PublishAsync(ctx => ctx.Init<AcreditarSaldoCommandSaga>(new
+                    .PublishAsync(ctx => ctx.Init<AcreditarSaldoComandoConsumidor>(new
                     {
                         IdCorrelacion = ctx.Saga.CorrelationId,
                         IdCuentaDestino = ctx.Saga.CuentaDestinoId,
@@ -78,7 +78,7 @@ namespace NeoCore.Infrastructure.OutputPoint.Sagas.MaquinasDeEstado
 
             During(AcreditandoDestino,
                 When(AcreditacionExitosaEvt)
-                    .PublishAsync(ctx => ctx.Init<LiquidarSaldoCommandSaga>(new
+                    .PublishAsync(ctx => ctx.Init<LiquidarSaldoComandoConsumidor>(new
                     {
                         IdCorrelacion = ctx.Saga.CorrelationId,
                         IdCuentaOrigen = ctx.Saga.CuentaOrigenId,

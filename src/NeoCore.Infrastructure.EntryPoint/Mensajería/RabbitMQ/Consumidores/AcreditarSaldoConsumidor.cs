@@ -1,24 +1,21 @@
 ﻿using MassTransit;
 using MediatR;
 using NeoCore.Application.CasosDeUso.LibroContable.Comandos;
-using NeoCore.Infrastructure.OutputPoint.Sagas.Comandos;
-using NeoCore.Infrastructure.OutputPoint.Sagas.TransferenciaEventos;
+using NeoCore.Infrastructure.EntryPoint.Mensajería.RabbitMQ.Consumidores.Comandos;
 using NeoCore.SharedKernel.LibroContable;
 
 
-namespace NeoCore.Infrastructure.OutputPoint.Sagas.Consumidores
+namespace NeoCore.Infrastructure.EntryPoint.Mensajería.RabbitMQ.Consumidores
 {
-    public class AcreditarSaldoConsumer : IConsumer<AcreditarSaldoCommandSaga>
+    public class AcreditarSaldoConsumidor : IConsumer<AcreditarSaldoComandoConsumidor>
     {
         private readonly IMediator _mediator;
-        private readonly IPublishEndpoint _publishEndpoint;
 
-        public AcreditarSaldoConsumer(IMediator mediator, IPublishEndpoint publishEndpoint)
+        public AcreditarSaldoConsumidor(IMediator mediator)
         {
             _mediator = mediator;
-            _publishEndpoint = publishEndpoint;
         }
-        public async Task Consume(ConsumeContext<AcreditarSaldoCommandSaga> context)
+        public async Task Consume(ConsumeContext<AcreditarSaldoComandoConsumidor> context)
         {
             var msg = context.Message;
 

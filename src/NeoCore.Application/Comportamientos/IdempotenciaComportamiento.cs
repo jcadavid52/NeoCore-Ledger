@@ -1,5 +1,5 @@
 using MediatR;
-using NeoCore.Application.Interfaces;
+using NeoCore.Application.PuertosEntrada;
 using NeoCore.Domain.Repositorios;
 
 namespace NeoCore.Application.Comportamientos

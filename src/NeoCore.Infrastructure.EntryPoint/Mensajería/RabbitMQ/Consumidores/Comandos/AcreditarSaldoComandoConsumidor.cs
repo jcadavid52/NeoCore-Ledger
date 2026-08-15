@@ -1,6 +1,6 @@
-﻿namespace NeoCore.Infrastructure.OutputPoint.Sagas.Comandos
+﻿namespace NeoCore.Infrastructure.EntryPoint.Mensajería.RabbitMQ.Consumidores.Comandos
 {
-    public class AcreditarSaldoCommandSaga
+    public class AcreditarSaldoComandoConsumidor
     {
         public Guid IdCorrelacion { get; init; }
         public Guid IdCuentaDestino { get; init; }

@@ -1,6 +1,6 @@
 ﻿using MediatR;
 using NeoCore.Application.CasosDeUso.Transferencias.Respuestas;
-using NeoCore.Application.Interfaces;
+using NeoCore.Application.PuertosEntrada;
 
 namespace NeoCore.Application.CasosDeUso.Transferencias.Comandos
 {

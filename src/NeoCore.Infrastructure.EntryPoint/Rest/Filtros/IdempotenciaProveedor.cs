@@ -1,4 +1,4 @@
-using NeoCore.Application.Interfaces;
+using NeoCore.Application.PuertosEntrada;
 
 namespace NeoCore.Infrastructure.EntryPoint.Rest.Filtros
 {
