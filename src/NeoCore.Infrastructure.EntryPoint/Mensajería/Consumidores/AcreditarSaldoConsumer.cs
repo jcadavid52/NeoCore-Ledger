@@ -2,7 +2,6 @@
 using MediatR;
 using NeoCore.Application.CasosDeUso.LibroContable.Comandos;
 using NeoCore.Infrastructure.OutputPoint.Sagas.Comandos;
-using NeoCore.Infrastructure.OutputPoint.Sagas.TransferenciaEventos;
 using NeoCore.SharedKernel.LibroContable;
 
 
