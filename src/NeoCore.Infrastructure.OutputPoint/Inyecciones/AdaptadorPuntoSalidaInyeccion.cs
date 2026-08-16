@@ -111,7 +111,7 @@ namespace NeoCore.Infrastructure.OutputPoint.Inyecciones
                 .HandleTransientHttpError()
                 .CircuitBreakerAsync(3, TimeSpan.FromSeconds(30));
 
-            servicios.AddHttpClient<ICuentaServicioCliente, CuentaClienteServicio>(client =>
+            servicios.AddHttpClient<ICuentaClienteServicio, CuentaClienteServicio>(client =>
             {
                 var baseUrl = configuracion["AccountService:BaseUrl"] ?? "http://localhost:5000";
                 client.BaseAddress = new Uri(baseUrl);

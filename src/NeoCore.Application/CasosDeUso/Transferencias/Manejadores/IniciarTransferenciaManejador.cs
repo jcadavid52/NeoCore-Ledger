@@ -10,12 +10,12 @@ namespace NeoCore.Application.CasosDeUso.Transferencias.Manejadores
 {
     public class IniciarTransferenciaManejador : IRequestHandler<IniciarTransferenciaComando, IniciarTransferenciaRespuesta>
     {
-        private readonly ICuentaServicioCliente _accountClient;
+        private readonly ICuentaClienteServicio _accountClient;
         private readonly ITransferenciaRepositorio _transferenciaRepositorio;
         private readonly IUnidadDeTrabajo _unitOfWork;
 
         public IniciarTransferenciaManejador(
-            ICuentaServicioCliente accountClient,
+            ICuentaClienteServicio accountClient,
             ITransferenciaRepositorio transferenciaRepositorio,
             IUnidadDeTrabajo unitOfWork)
         {
@@ -26,8 +26,8 @@ namespace NeoCore.Application.CasosDeUso.Transferencias.Manejadores
 
         public async Task<IniciarTransferenciaRespuesta> Handle(IniciarTransferenciaComando comando, CancellationToken cancellationToken)
         {
-            var destinoValido = await _accountClient.ValidarCuentaAsync(comando.IdCuentaDestino, cancellationToken);
-            if (!destinoValido)
+            var cuentaUsuario = await _accountClient.ObtenerInfoPorIdAsync(comando.IdCuentaDestino, cancellationToken);
+            if (cuentaUsuario.Estado == "Invalida")
                 throw new ExcepcionConflicto($"La cuenta destino {comando.IdCuentaDestino} no es válida");
 
             var transferencia = new TransferenciaAgregado();
