@@ -4,6 +4,6 @@
     {
         Pendiente,
         Rechazada,
-        Aceptada
+        Completada
     }
 }
