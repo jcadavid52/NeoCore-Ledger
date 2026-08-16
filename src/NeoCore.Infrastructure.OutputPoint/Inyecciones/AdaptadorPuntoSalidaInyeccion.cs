@@ -79,6 +79,7 @@ namespace NeoCore.Infrastructure.OutputPoint.Inyecciones
                 x.AddConsumer<BloquearSaldoConsumidor>();
                 x.AddConsumer<AcreditarSaldoConsumidor>();
                 x.AddConsumer<LiquidarSaldoConsumidor>();
+                x.AddConsumer<NotificarTransferenciaConsumidor>();
 
                 x.AddEntityFrameworkOutbox<SqlServerContexto>(o =>
                 {

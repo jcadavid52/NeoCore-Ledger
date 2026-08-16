@@ -33,5 +33,13 @@ namespace NeoCore.Domain.Agregados
 
             AgregarEvento(new IniciarTransferencia(Id, IdCuentaOrigen, IdCuentaDestino, Monto));
         }
+
+        public void Completada()
+        {
+            Estado = EstadoTransferencia.Completada;
+            FechaFin = DateTime.UtcNow;
+
+            AgregarEvento(new TransferenciaCompletada(Id));
+        }
     }
 }
