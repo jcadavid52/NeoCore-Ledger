@@ -2,11 +2,11 @@ using NeoCore.Application.PuertosSalida;
 
 namespace NeoCore.Infrastructure.OutputPoint.Rest.Clientes.CuentasServicio
 {
-    public class ServicioCuentaCliente : ICuentaServicioCliente
+    public class CuentaClienteServicio : ICuentaServicioCliente
     {
         private readonly HttpClient _httpClient;
 
-        public ServicioCuentaCliente(HttpClient httpClient)
+        public CuentaClienteServicio(HttpClient httpClient)
         {
             _httpClient = httpClient;
         }
