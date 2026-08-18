@@ -88,11 +88,19 @@ namespace NeoCore.Infrastructure.OutputPoint.Mensajeria.RabbitMQ.MaquinasDeEstad
 
             During(LiquidandoOrigen,
                 When(LiquidacionExitosaEvt)
-                    .Then(ctx =>
+                    .PublishAsync(ctx => ctx.Init<NotificarTransferenciaComandoConsumidor>(new
                     {
-                        ctx.Saga.FechaFin = DateTime.UtcNow;
-                    })
+                        IdCorrelacion = ctx.Saga.CorrelationId
+                    }))
                     .TransitionTo(Notificando));
+
+            During(Notificando,
+                When(NotificacionCompletaEvt)
+                .Then(ctx =>
+                {
+                    ctx.Saga.FechaFin = DateTime.UtcNow;
+                })
+                .TransitionTo(Completado));
         }
     }
 }
